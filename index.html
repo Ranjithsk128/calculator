@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="https://th.bing.com/th?id=OIP.tx8-Z_57yVsBdPVkwsZe9AHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.1&pid=3.1&rm=2" type="image/x-icon" sizes="80%">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('https://img.freepik.com/free-vector/mathematical-geometric-background-vector-gradient-blue-education-remix_53876-114100.jpg?size=626&ext=jpg&ga=GA1.1.1967969229.1722751431&semt=ais_hybrid');
+            background-size: cover;
+            background-position: center;
+        }
+        .calculator {
+            background-color: rgba(0, 43, 86, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        #display {
+            width: 100%;
+            height: 60px;
+            font-size: 36px;
+            text-align: right;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: none;
+            background-color: rgba(0, 31, 63, 0.8);
+            color: white;
+            border-radius: 5px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+        button {
+            width: 60px;
+            height: 60px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            background-color: #0056b3;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #003d82;
+        }
+        .number-button {
+            background-color: #007bff;
+        }
+        .number-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly value="0">
+        <div class="buttons">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="backspace()">⌫</button>
+            <button onclick="appendToDisplay('%')">%</button>
+            <button onclick="appendToDisplay('/')">/</button>
+            <button onclick="appendToDisplay('*')">*</button> 
+            <button onclick="appendToDisplay('+')">+</button>
+            <button onclick="appendToDisplay('-')">-</button>
+            <button class="number-button" onclick="appendToDisplay('7')">7</button>
+            <button class="number-button" onclick="appendToDisplay('8')">8</button>
+            <button class="number-button" onclick="appendToDisplay('9')">9</button>
+            <button onclick="square()">x²</button>
+            <button onclick="squareRoot()">√</button>
+            <button class="number-button" onclick="appendToDisplay('4')">4</button>
+            <button class="number-button" onclick="appendToDisplay('5')">5</button>
+            <button class="number-button" onclick="appendToDisplay('6')">6</button>
+            <button onclick="randomNumber()">🎲</button>  
+            <button onclick="diagonal()">Diag</button>           
+            <button class="number-button" onclick="appendToDisplay('1')">1</button>
+            <button class="number-button" onclick="appendToDisplay('2')">2</button>
+            <button class="number-button" onclick="appendToDisplay('3')">3</button>
+            <button onclick="scientificNotation()">SI</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button class="number-button" onclick="appendToDisplay('0')">0</button> 
+            <button onclick="calculate()">=</button> 
+            <button onclick="pythagorean()">△</button>
+        </div>
+    </div>
+
+    <script>
+        function appendToDisplay(value) {
+            let display = document.getElementById('display');
+            if (display.value === '0') {
+                display.value = value;
+            } else {
+                display.value += value;
+            }
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '0';
+        }
+
+        function backspace() {
+            let display = document.getElementById('display');
+            display.value = display.value.slice(0, -1);
+            if (display.value === '') {
+                display.value = '0';
+            }
+        }
+
+        function calculate() {
+            try {
+                let display = document.getElementById('display');
+                let result = eval(display.value);
+                display.value = result;
+            } catch (error) {
+                document.getElementById('display').value = 'Error';
+            }
+        }
+
+        function square() {
+            let display = document.getElementById('display');
+            let value = parseFloat(display.value);
+            let result = value * value;
+            display.value = result;
+        }
+
+        function squareRoot() {
+            let display = document.getElementById('display');
+            let value = parseFloat(display.value);
+            let result = Math.sqrt(value);
+            display.value = result;
+        }
+
+        function diagonal() {
+            let display = document.getElementById('display');
+            let value = parseFloat(display.value);
+            let result = Math.sqrt(2) * value;
+            display.value = result;
+        }
+
+        function scientificNotation() {
+            // let display = document.getElementById('display');
+            // let value = parseFloat(display.value);
+            // let result = value.toExponential();
+            // display.value = result;
+            let p = prompt("Enter the principal (p):");
+            let n = prompt("Enter the number of years (n):");
+            let r = prompt("Enter the rate of interest (r):");
+            if (p && n && r) {
+            p = parseFloat(p);
+            n = parseFloat(n);
+            r = parseFloat(r);
+            let simpleInterest = (p * n * r) / 100;
+            document.getElementById('display').value = simpleInterest;
+        }
+
+        }
+
+        function randomNumber() {
+            // let result = Math.random();
+            // document.getElementById('display').value = result;
+            let display = document.getElementById('display');
+            let value = parseFloat(display.value);
+            let result = Math.pow(value, 3); 
+            display.value = result;
+
+        }
+
+        function pythagorean() {
+            let a = prompt("Enter the length of side a:");
+            let b = prompt("Enter the length of side b:");
+            if (a && b) {
+                a = parseFloat(a);
+                b = parseFloat(b);
+                let c = Math.sqrt(a*a + b*b);
+                document.getElementById('display').value = c;
+            }
+        }
+    </script>
+</body>
+</html>
